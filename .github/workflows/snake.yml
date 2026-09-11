@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "scripts/generate_snake.py"
 
 jobs:
   generate:
@@ -14,16 +16,43 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: Platane/snk/svg-only@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+      - uses: actions/checkout@v4
 
-      - uses: crazy-max/ghaction-github-pages@v3
+      - uses: actions/setup-python@v5
         with:
-          target_branch: output
-          build_dir: dist
+          python-version: "3.11"
+
+      - name: Fetch contribution calendar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api graphql -f query='
+          query($login: String!) {
+            user(login: $login) {
+              contributionsCollection {
+                contributionCalendar {
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      date
+                      contributionCount
+                    }
+                  }
+                }
+              }
+            }
+          }' -f login="${{ github.repository_owner }}" > contrib.json
+
+      - name: Generate snake SVGs
+        run: |
+          python scripts/generate_snake.py contrib.json assets/snake-dark.svg --theme dark
+          python scripts/generate_snake.py contrib.json assets/snake-light.svg --theme light
+          rm -f contrib.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/snake-dark.svg assets/snake-light.svg
+          git diff --cached --quiet || git commit -m "Update contribution snake animation"
+          git push
