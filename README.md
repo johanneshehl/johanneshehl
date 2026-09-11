@@ -18,10 +18,39 @@ Right now I'm going deeper on **React** and **Java**.
 
 #### Stack
 
+<sub>EDITORS & ENGINES</sub><br />
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=java%2Ccs%2Cts%2Cjs%2Cpy%2Cc%2Ccpp%2Cphp%2Cbash%2Cpowershell%2Creact%2Cnextjs%2Cangular%2Cvite%2Ctailwind%2Celectron%2Cflutter%2Cnodejs%2Cexpress%2Cfastapi%2Cflask%2Cdotnet%2Cmysql%2Cpostgres%2Csqlite%2Cfirebase%2Cgcp%2Ccloudflare%2Cvercel%2Cdocker%2Cnginx%2Cgit%2Cgithub%2Cfigma%2Cblender%2Cpytorch%2Ctensorflow%2Craspberrypi%2Cunrealengine%2Copengl&theme=dark&perline=10" />
-  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=java%2Ccs%2Cts%2Cjs%2Cpy%2Cc%2Ccpp%2Cphp%2Cbash%2Cpowershell%2Creact%2Cnextjs%2Cangular%2Cvite%2Ctailwind%2Celectron%2Cflutter%2Cnodejs%2Cexpress%2Cfastapi%2Cflask%2Cdotnet%2Cmysql%2Cpostgres%2Csqlite%2Cfirebase%2Cgcp%2Ccloudflare%2Cvercel%2Cdocker%2Cnginx%2Cgit%2Cgithub%2Cfigma%2Cblender%2Cpytorch%2Ctensorflow%2Craspberrypi%2Cunrealengine%2Copengl&theme=light&perline=10" />
-  <img alt="Tech stack" src="https://skillicons.dev/icons?i=java%2Ccs%2Cts%2Cjs%2Cpy%2Cc%2Ccpp%2Cphp%2Cbash%2Cpowershell%2Creact%2Cnextjs%2Cangular%2Cvite%2Ctailwind%2Celectron%2Cflutter%2Cnodejs%2Cexpress%2Cfastapi%2Cflask%2Cdotnet%2Cmysql%2Cpostgres%2Csqlite%2Cfirebase%2Cgcp%2Ccloudflare%2Cvercel%2Cdocker%2Cnginx%2Cgit%2Cgithub%2Cfigma%2Cblender%2Cpytorch%2Ctensorflow%2Craspberrypi%2Cunrealengine%2Copengl&theme=dark&perline=10" width="100%" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=visualstudio%2Cvscode%2Cidea%2Candroidstudio%2Cblender%2Cunity%2Cunreal%2Cfigma&perline=8&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=visualstudio%2Cvscode%2Cidea%2Candroidstudio%2Cblender%2Cunity%2Cunreal%2Cfigma&perline=8&theme=light" />
+  <img alt="visualstudio,vscode,idea,androidstudio,blender,unity,unreal,figma" src="https://skillicons.dev/icons?i=visualstudio%2Cvscode%2Cidea%2Candroidstudio%2Cblender%2Cunity%2Cunreal%2Cfigma&perline=8&theme=dark" />
+</picture>
+
+<sub>LANGUAGES</sub><br />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=java%2Ccs%2Cts%2Cjs%2Cpy%2Cc%2Ccpp%2Cphp%2Cbash%2Cpowershell%2Chtml%2Ccss&perline=8&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=java%2Ccs%2Cts%2Cjs%2Cpy%2Cc%2Ccpp%2Cphp%2Cbash%2Cpowershell%2Chtml%2Ccss&perline=8&theme=light" />
+  <img alt="java,cs,ts,js,py,c,cpp,php,bash,powershell,html,css" src="https://skillicons.dev/icons?i=java%2Ccs%2Cts%2Cjs%2Cpy%2Cc%2Ccpp%2Cphp%2Cbash%2Cpowershell%2Chtml%2Ccss&perline=8&theme=dark" />
+</picture>
+
+<sub>FRAMEWORKS</sub><br />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=react%2Cnextjs%2Cangular%2Cvite%2Ctailwind%2Celectron%2Cflutter%2Cnodejs%2Cexpress%2Cfastapi%2Cflask%2Cdotnet%2Cpytorch%2Ctensorflow&perline=8&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=react%2Cnextjs%2Cangular%2Cvite%2Ctailwind%2Celectron%2Cflutter%2Cnodejs%2Cexpress%2Cfastapi%2Cflask%2Cdotnet%2Cpytorch%2Ctensorflow&perline=8&theme=light" />
+  <img alt="react,nextjs,angular,vite,tailwind,electron,flutter,nodejs,express,fastapi,flask,dotnet,pytorch,tensorflow" src="https://skillicons.dev/icons?i=react%2Cnextjs%2Cangular%2Cvite%2Ctailwind%2Celectron%2Cflutter%2Cnodejs%2Cexpress%2Cfastapi%2Cflask%2Cdotnet%2Cpytorch%2Ctensorflow&perline=8&theme=dark" />
+</picture>
+
+<sub>PLATFORMS</sub><br />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=github%2Cgitlab%2Cvercel%2Ccloudflare%2Cfirebase%2Cgcp&perline=8&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=github%2Cgitlab%2Cvercel%2Ccloudflare%2Cfirebase%2Cgcp&perline=8&theme=light" />
+  <img alt="github,gitlab,vercel,cloudflare,firebase,gcp" src="https://skillicons.dev/icons?i=github%2Cgitlab%2Cvercel%2Ccloudflare%2Cfirebase%2Cgcp&perline=8&theme=dark" />
+</picture>
+
+<sub>TOOLS & DATA</sub><br />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=git%2Cmysql%2Cpostgres%2Csqlite%2Cdocker%2Cnginx%2Clinux%2Craspberrypi&perline=8&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=git%2Cmysql%2Cpostgres%2Csqlite%2Cdocker%2Cnginx%2Clinux%2Craspberrypi&perline=8&theme=light" />
+  <img alt="git,mysql,postgres,sqlite,docker,nginx,linux,raspberrypi" src="https://skillicons.dev/icons?i=git%2Cmysql%2Cpostgres%2Csqlite%2Cdocker%2Cnginx%2Clinux%2Craspberrypi&perline=8&theme=dark" />
 </picture>
 
 </td>
