@@ -1,18 +1,25 @@
-<div align="center">
+<table>
+<tr>
+<td width="65%" valign="middle">
 
 # Hi, I'm Johannes Hehl 👋
 
 <img src="https://readme-typing-svg.demolab.com/?lines=Building+things+that+spark+curiosity;Currently+diving+into+React+%26+Java;Sometimes+messy%2C+sometimes+neat+%E2%80%94+always+intentional;If+it+goes+really+well%2C+it+even+gets+documentation&font=Fira%20Code&center=true&width=600&height=45&color=58A6FF&vCenter=true&size=20" alt="Typing SVG" />
-
-</div>
-
----
 
 ### 🧭 About Me
 
 I create projects that spark my curiosity — sometimes messy, sometimes neat, but always made with intention. If things go well, they end up in a repo. If they go really well, they even get documentation.
 
 Right now I'm diving into **React** and **Java**, learning something new with every build.
+
+</td>
+<td width="35%" align="center">
+
+<img src="assets/cheers.png" width="260" alt="Cheers" />
+
+</td>
+</tr>
+</table>
 
 ---
 
