@@ -1,14 +1,15 @@
 """
-Generates an animated SVG of a fixed-length snake roaming the empty
-(non-contribution) cells of a GitHub contribution calendar.
+Generates a smooth, looping SVG animation of a fixed-length snake roaming
+the empty (non-contribution) cells of a GitHub contribution calendar.
 
 Rules:
-- Contribution cells (count > 0) are shown as dots and act as walls; the
-  snake may never move onto them.
+- Contribution cells (count > 0) are walls the snake may never enter.
 - Empty cells (count == 0) form the walkable arena.
-- A single "snack" (GitHub mark) spawns on a random walkable cell.
-- The snake always takes the shortest path (BFS) to the current snack.
-- Eating a snack never grows the snake -- it stays a fixed length forever
+- The snake may never move onto its own body (except the tail cell it is
+  about to vacate).
+- A single "snack" (GitHub mark) spawns on a random walkable cell; the
+  snake takes the shortest path to it that does not cross its own body.
+- Eating a snack never grows the snake -- it stays a fixed length forever,
   so the loop can repeat indefinitely.
 
 Usage:
@@ -22,9 +23,10 @@ from collections import deque
 CELL = 11
 GAP = 3
 STEP = CELL + GAP
+RADIUS = 3
 SNAKE_LENGTH = 6
-STEPS = 240
-STEP_DURATION = 0.22  # seconds per grid step
+STEPS = 220
+STEP_DURATION = 0.32  # seconds per grid cell, smoothly interpolated
 
 GITHUB_MARK = (
     "M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 "
@@ -38,8 +40,30 @@ GITHUB_MARK = (
 )
 
 THEMES = {
-    "dark": dict(bg_free="#161b22", dot="#39d353", head="#58a6ff", tail="#1f3f66", snack="#f0f6fc"),
-    "light": dict(bg_free="#ebedf0", dot="#216e39", head="#0969da", tail="#a6d1ff", snack="#24292f"),
+    "dark": dict(
+        bg="none",
+        free="#161b22",
+        free_stroke="#21262d",
+        wall="#2ea043",
+        wall_stroke="#3fb950",
+        head=(88, 166, 255),   # #58a6ff
+        tail=(20, 40, 70),
+        eye="#0d1117",
+        snack="#e3b341",
+        glow="#e3b341",
+    ),
+    "light": dict(
+        bg="none",
+        free="#eef0f2",
+        free_stroke="#d8dbdf",
+        wall="#40c463",
+        wall_stroke="#2ea44f",
+        head=(9, 105, 218),    # #0969da
+        tail=(179, 210, 255),
+        eye="#ffffff",
+        snack="#9a6700",
+        glow="#9a6700",
+    ),
 }
 
 
@@ -57,56 +81,31 @@ def load_grid(path):
     return blocked, cols, rows
 
 
-def free_cells(blocked, cols, rows, exclude=()):
-    return [
-        (x, y)
-        for y in range(rows)
-        for x in range(cols)
-        if not blocked[y][x] and (x, y) not in exclude
-    ]
+def in_bounds(cols, rows, x, y):
+    return 0 <= x < cols and 0 <= y < rows
 
 
-def bfs_path(blocked, cols, rows, start, goal):
-    if start == goal:
-        return [start]
-    q = deque([start])
-    came = {start: None}
-    while q:
-        cur = q.popleft()
-        if cur == goal:
-            break
-        cx, cy = cur
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            nxt = (cx + dx, cy + dy)
-            nx, ny = nxt
-            if not (0 <= nx < cols and 0 <= ny < rows):
-                continue
-            if blocked[ny][nx]:
-                continue
-            if nxt in came:
-                continue
-            came[nxt] = cur
-            q.append(nxt)
-    if goal not in came:
-        return None
-    path = [goal]
-    while came[path[-1]] is not None:
-        path.append(came[path[-1]])
-    path.reverse()
-    return path
+def neighbors(blocked, cols, rows, cell):
+    x, y = cell
+    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        nx, ny = x + dx, y + dy
+        if in_bounds(cols, rows, nx, ny) and not blocked[ny][nx]:
+            yield (nx, ny)
+
+
+def free_cells(blocked, cols, rows):
+    return [(x, y) for y in range(rows) for x in range(cols) if not blocked[y][x]]
 
 
 def connected_component(blocked, cols, rows, start):
-    """Flood fill of free cells reachable from start, ignoring the snake body."""
     seen = {start}
     q = deque([start])
     while q:
-        cx, cy = q.popleft()
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            nx, ny = cx + dx, cy + dy
-            if 0 <= nx < cols and 0 <= ny < rows and not blocked[ny][nx] and (nx, ny) not in seen:
-                seen.add((nx, ny))
-                q.append((nx, ny))
+        cur = q.popleft()
+        for nxt in neighbors(blocked, cols, rows, cur):
+            if nxt not in seen:
+                seen.add(nxt)
+                q.append(nxt)
     return seen
 
 
@@ -123,42 +122,83 @@ def largest_component(blocked, cols, rows):
     return best
 
 
+def bfs_path(blocked, cols, rows, start, goal, obstacles):
+    """Shortest path from start to goal, never entering `obstacles` (the
+    snake's own body, tail excluded) or contribution-blocked cells."""
+    if start == goal:
+        return [start]
+    q = deque([start])
+    came = {start: None}
+    while q:
+        cur = q.popleft()
+        if cur == goal:
+            break
+        for nxt in neighbors(blocked, cols, rows, cur):
+            if nxt in came:
+                continue
+            if nxt in obstacles and nxt != goal:
+                continue
+            came[nxt] = cur
+            q.append(nxt)
+    if goal not in came:
+        return None
+    path = [goal]
+    while came[path[-1]] is not None:
+        path.append(came[path[-1]])
+    path.reverse()
+    return path
+
+
 def simulate(blocked, cols, rows, seed):
     rnd = random.Random(seed)
-    arena = largest_component(blocked, cols, rows)
-    start = rnd.choice(sorted(arena))
+    arena = sorted(largest_component(blocked, cols, rows))
+    start = rnd.choice(arena)
     body = deque([start] * SNAKE_LENGTH)
     positions = [start]
-    snack_at_step = []
+    snack_history = []
     snack = None
 
-    arena_sorted = sorted(arena)
-    while len(positions) < STEPS:
+    for _ in range(STEPS - 1):
+        body_minus_tail = set(list(body)[:-1])
+
         if snack is None or snack == body[0]:
-            candidates = [c for c in arena_sorted if c not in body] or [body[0]]
-            snack = rnd.choice(candidates)
+            candidates = [c for c in arena if c not in body]
+            snack = rnd.choice(candidates) if candidates else body[0]
 
-        path = bfs_path(blocked, cols, rows, body[0], snack)
-        if not path or len(path) < 2:
-            # snack sits on the current head with nowhere to step -- respawn
-            snack = None
-            continue
+        path = bfs_path(blocked, cols, rows, body[0], snack, body_minus_tail)
+        if path and len(path) >= 2:
+            next_cell = path[1]
+        else:
+            # snack currently unreachable without crossing the body -- take
+            # the safest step that gets us closest, never crossing the body
+            legal = [n for n in neighbors(blocked, cols, rows, body[0]) if n not in body_minus_tail]
+            if legal:
+                next_cell = min(legal, key=lambda n: abs(n[0] - snack[0]) + abs(n[1] - snack[1]))
+            else:
+                next_cell = body[0]  # fully boxed in by its own body (very rare); wait a tick
 
-        snack_at_step.append(snack)
-        next_cell = path[1]
+        snack_history.append(snack)
         body.appendleft(next_cell)
         body.pop()
         positions.append(next_cell)
 
-    snack_at_step.append(snack if snack is not None else snack_at_step[-1])
-    return positions, snack_at_step
+    snack_history.append(snack if snack is not None else positions[-1])
+    return positions, snack_history
 
 
 def fmt(values):
     return ";".join(f"{v:.2f}" for v in values)
 
 
-def build_svg(blocked, cols, rows, positions, snack_at_step, theme_name):
+def lerp_color(c1, c2, t):
+    return tuple(round(c1[i] + (c2[i] - c1[i]) * t) for i in range(3))
+
+
+def to_hex(c):
+    return f"#{c[0]:02x}{c[1]:02x}{c[2]:02x}"
+
+
+def build_svg(blocked, cols, rows, positions, snack_history, theme_name):
     theme = THEMES[theme_name]
     width = cols * STEP - GAP
     height = rows * STEP - GAP
@@ -172,55 +212,80 @@ def build_svg(blocked, cols, rows, positions, snack_at_step, theme_name):
 
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
-        f'width="100%" role="img" aria-label="animated snake roaming the contribution graph">'
+        f'width="100%" role="img" aria-label="a snake roaming the empty cells of the '
+        f'contribution graph, chasing a github icon">',
+        "<defs>",
+        f'<filter id="glow" x="-60%" y="-60%" width="220%" height="220%">'
+        f'<feGaussianBlur stdDeviation="1.6" result="blur"/>'
+        f'<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>'
+        f"</filter>",
+        "</defs>",
     ]
 
-    # arena: free cells as soft squares, contribution cells as dots (walls)
+    # arena: free cells as soft rounded tiles, contribution cells as filled walls
     for y in range(rows):
         for x in range(cols):
             cx, cy = px((x, y))
             if blocked[y][x]:
                 out.append(
-                    f'<circle cx="{cx + CELL / 2:.1f}" cy="{cy + CELL / 2:.1f}" '
-                    f'r="{CELL * 0.17:.1f}" fill="{theme["dot"]}" />'
+                    f'<rect x="{cx}" y="{cy}" width="{CELL}" height="{CELL}" rx="{RADIUS}" '
+                    f'fill="{theme["wall"]}" stroke="{theme["wall_stroke"]}" stroke-width="0.6"/>'
                 )
             else:
                 out.append(
-                    f'<rect x="{cx}" y="{cy}" width="{CELL}" height="{CELL}" rx="2" '
-                    f'fill="{theme["bg_free"]}" />'
+                    f'<rect x="{cx}" y="{cy}" width="{CELL}" height="{CELL}" rx="{RADIUS}" '
+                    f'fill="{theme["free"]}" stroke="{theme["free_stroke"]}" stroke-width="0.6"/>'
                 )
 
-    # snack: github mark that jumps between spawn cells
+    # snack: pulsing glow + github mark, jumping between spawn cells
     translate_values = ";".join(
-        f"{px(c)[0] + CELL / 2 - 5.5:.2f},{px(c)[1] + CELL / 2 - 5.5:.2f}"
-        for c in snack_at_step
+        f"{px(c)[0] + CELL / 2:.2f},{px(c)[1] + CELL / 2:.2f}" for c in snack_history
     )
     out.append(
-        f'<g fill="{theme["snack"]}">'
+        f'<g filter="url(#glow)">'
         f'<animateTransform attributeName="transform" attributeType="XML" type="translate" '
         f'values="{translate_values}" calcMode="discrete" keyTimes="{key_times}" '
         f'dur="{total_dur:.2f}s" repeatCount="indefinite"/>'
-        f'<g transform="scale(0.7)"><path d="{GITHUB_MARK}"/></g>'
-        f'</g>'
+        f'<circle r="3.6" fill="{theme["glow"]}" opacity="0.35">'
+        f'<animate attributeName="r" values="3.2;4.4;3.2" dur="1.4s" repeatCount="indefinite"/>'
+        f"</circle>"
+        f'<g transform="translate(-5.5,-5.5) scale(0.7)" fill="{theme["snack"]}">'
+        f'<path d="{GITHUB_MARK}"/>'
+        f"</g></g>"
     )
 
-    # snake segments (head first, drawn last so it's on top)
+    # snake segments, tail first so the head renders on top
     for i in reversed(range(SNAKE_LENGTH)):
         xs, ys = [], []
         for t in range(steps):
             cell = positions[max(0, t - i)]
             cx, cy = px(cell)
-            xs.append(cx)
-            ys.append(cy)
-        fade = 1 - (i / SNAKE_LENGTH) * 0.65
-        color = theme["head"] if i == 0 else theme["tail"]
+            xs.append(cx + CELL / 2)
+            ys.append(cy + CELL / 2)
+        t_fade = i / (SNAKE_LENGTH - 1) if SNAKE_LENGTH > 1 else 0
+        color = to_hex(lerp_color(theme["head"], theme["tail"], t_fade))
+        scale = 1.0 if i == 0 else max(0.68, 1 - t_fade * 0.35)
+        half = CELL * scale / 2
+
+        segment_body = (
+            f'<rect x="{-half:.2f}" y="{-half:.2f}" width="{half * 2:.2f}" height="{half * 2:.2f}" '
+            f'rx="{RADIUS}" fill="{color}"/>'
+        )
+        if i == 0:
+            eye_offset = half * 0.45
+            segment_body += (
+                f'<circle cx="{-eye_offset:.2f}" cy="{-eye_offset:.2f}" r="0.9" fill="{theme["eye"]}"/>'
+                f'<circle cx="{eye_offset:.2f}" cy="{-eye_offset:.2f}" r="0.9" fill="{theme["eye"]}"/>'
+            )
+
+        wrapper_filter = ' filter="url(#glow)"' if i == 0 else ""
         out.append(
-            f'<rect width="{CELL}" height="{CELL}" rx="3" fill="{color}" opacity="{fade:.2f}">'
-            f'<animate attributeName="x" values="{fmt(xs)}" calcMode="discrete" '
-            f'keyTimes="{key_times}" dur="{total_dur:.2f}s" repeatCount="indefinite"/>'
-            f'<animate attributeName="y" values="{fmt(ys)}" calcMode="discrete" '
-            f'keyTimes="{key_times}" dur="{total_dur:.2f}s" repeatCount="indefinite"/>'
-            f'</rect>'
+            f"<g{wrapper_filter}>"
+            f'<animateTransform attributeName="transform" attributeType="XML" type="translate" '
+            f'values="{";".join(f"{x:.2f},{y:.2f}" for x, y in zip(xs, ys))}" '
+            f'calcMode="linear" keyTimes="{key_times}" dur="{total_dur:.2f}s" '
+            f'repeatCount="indefinite"/>'
+            f"{segment_body}</g>"
         )
 
     out.append("</svg>")
@@ -235,8 +300,8 @@ def main():
         theme = sys.argv[sys.argv.index("--theme") + 1]
 
     blocked, cols, rows = load_grid(grid_path)
-    positions, snack_at_step = simulate(blocked, cols, rows, seed=7)
-    svg = build_svg(blocked, cols, rows, positions, snack_at_step, theme)
+    positions, snack_history = simulate(blocked, cols, rows, seed=7)
+    svg = build_svg(blocked, cols, rows, positions, snack_history, theme)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(svg)
     print(f"wrote {out_path}: cols={cols} rows={rows} steps={len(positions)}")
