@@ -14,7 +14,7 @@
 
 Apprentice developer working in IT. I build the things that make me curious — sometimes messy, sometimes neat, always made with intention. If a project goes well, it lands in a repo. If it goes really well, it even gets documentation.
 
-Right now I'm going deeper on **React** and **Java**.
+Right now I'm going deeper on **Angular** and **.net**.
 
 #### Stack
 
