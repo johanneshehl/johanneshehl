@@ -33,19 +33,11 @@
 </g>
 <rect x="0.5" y="0.5" width="879" height="239" rx="16" fill="none" stroke="#eaeaea"/>
 
-<g font-family="Geist, Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="500">
-  <rect x="40" y="36" width="138" height="26" rx="13" fill="#fafafa" stroke="#e5e5e5"/>
-  <circle cx="56" cy="49" r="3.5" fill="#16a34a">
-    <animate attributeName="opacity" values="1;0.35;1" dur="2s" repeatCount="indefinite"/>
-  </circle>
-  <text x="67" y="53" fill="#6b6b6b">Based in Germany</text>
-</g>
+<text x="38" y="112" font-family="Geist, Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-2.6" fill="url(#title)">Johannes Hehl</text>
+<text x="40" y="146" font-family="Geist, Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" fill="#6b6b6b">Code, coffee &amp; curiosity.</text>
 
-<text x="38" y="132" font-family="Geist, Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-2.6" fill="url(#title)">Johannes Hehl</text>
-
-<g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">
-  <text x="40" y="176" fill="#6b6b6b">&gt;</text>
-  <text x="62" y="176" opacity="0" fill="#171717">building with React.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="0s" repeatCount="indefinite"/></text><text x="62" y="176" opacity="0" fill="#171717">learning Java, one build at a time.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="3s" repeatCount="indefinite"/></text><text x="62" y="176" opacity="0" fill="#171717">shipping small tools &amp; widgets.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="6s" repeatCount="indefinite"/></text><text x="62" y="176" opacity="0" fill="#171717">sometimes messy, always intentional.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="9s" repeatCount="indefinite"/></text>
-  <text x="40" y="206" fill="#6b6b6b" font-size="13">apprentice developer · github.com/johanneshehl</text>
+<g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+  <text x="40" y="190" fill="#16a34a">&gt;</text>
+  <text x="58" y="190" opacity="0" fill="#171717">cd ~/CodeNest<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.17;0.2;1" dur="15s" begin="0s" repeatCount="indefinite"/></text><text x="58" y="190" opacity="0" fill="#171717">cd ~/Soundcloud-Designer<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.17;0.2;1" dur="15s" begin="3s" repeatCount="indefinite"/></text><text x="58" y="190" opacity="0" fill="#171717">cd ~/St4ndds-Widgets<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.17;0.2;1" dur="15s" begin="6s" repeatCount="indefinite"/></text><text x="58" y="190" opacity="0" fill="#171717">cd ~/Cloudflare-Filestorage<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.17;0.2;1" dur="15s" begin="9s" repeatCount="indefinite"/></text><text x="58" y="190" opacity="0" fill="#171717">cd ~/arduino-leonardo-auto-flash<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.17;0.2;1" dur="15s" begin="12s" repeatCount="indefinite"/></text>
 </g>
 </svg>

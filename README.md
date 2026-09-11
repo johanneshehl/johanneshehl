@@ -56,7 +56,7 @@ Right now I'm going deeper on **Angular** and **.net**.
 </td>
 <td width="38%" align="center" valign="bottom">
 
-<img src="assets/aha.png" width="240" alt="Illustration of Johannes" />
+<img src="assets/portrait.png" width="240" alt="Illustration of Johannes" />
 
 </td>
 </tr>
