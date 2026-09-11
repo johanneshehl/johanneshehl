@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="240" viewBox="0 0 880 240">
+<defs>
+  <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+    <path d="M32 0H0V32" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+  </pattern>
+  <radialGradient id="fade" cx="75%" cy="0%" r="85%">
+    <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <mask id="gridMask"><rect width="880" height="240" fill="url(#fade)"/></mask>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.10"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="title" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#a1a1a1"/>
+  </linearGradient>
+  <linearGradient id="beam" x1="0" x2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.9"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+  <clipPath id="card"><rect x="0.5" y="0.5" width="879" height="239" rx="16"/></clipPath>
+</defs>
+<g clip-path="url(#card)">
+  <rect width="880" height="240" fill="#000000"/>
+  <rect width="880" height="240" fill="url(#grid)" mask="url(#gridMask)"/>
+  <ellipse cx="700" cy="10" rx="260" ry="140" fill="url(#glow)">
+    <animate attributeName="rx" values="240;290;240" dur="8s" repeatCount="indefinite"/>
+  </ellipse>
+  <rect y="0" width="180" height="1" fill="url(#beam)">
+    <animate attributeName="x" values="-180;880" dur="5s" repeatCount="indefinite"/>
+  </rect>
+</g>
+<rect x="0.5" y="0.5" width="879" height="239" rx="16" fill="none" stroke="#262626"/>
+
+<g font-family="Geist, Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="500">
+  <rect x="40" y="36" width="138" height="26" rx="13" fill="#0a0a0a" stroke="#2e2e2e"/>
+  <circle cx="56" cy="49" r="3.5" fill="#22c55e">
+    <animate attributeName="opacity" values="1;0.35;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="67" y="53" fill="#8f8f8f">Based in Germany</text>
+</g>
+
+<text x="38" y="132" font-family="Geist, Inter, ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-2.6" fill="url(#title)">Johannes Hehl</text>
+
+<g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">
+  <text x="40" y="176" fill="#8f8f8f">&gt;</text>
+  <text x="62" y="176" opacity="0" fill="#ededed">building with React.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="0s" repeatCount="indefinite"/></text><text x="62" y="176" opacity="0" fill="#ededed">learning Java, one build at a time.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="3s" repeatCount="indefinite"/></text><text x="62" y="176" opacity="0" fill="#ededed">shipping small tools &amp; widgets.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="6s" repeatCount="indefinite"/></text><text x="62" y="176" opacity="0" fill="#ededed">sometimes messy, always intentional.<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.03;0.22;0.25;1" dur="12s" begin="9s" repeatCount="indefinite"/></text>
+  <text x="40" y="206" fill="#8f8f8f" font-size="13">apprentice developer · github.com/johanneshehl</text>
+</g>
+</svg>
