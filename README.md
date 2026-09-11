@@ -15,7 +15,7 @@ Right now I'm diving into **React** and **Java**, learning something new with ev
 </td>
 <td width="35%" align="center">
 
-<img src="assets/cheers.png" width="260" alt="Cheers" />
+<img src="assets/aha.png" width="260" alt="Aha" />
 
 </td>
 </tr>
