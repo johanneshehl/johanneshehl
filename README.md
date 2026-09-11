@@ -72,5 +72,7 @@ Right now I'm going deeper on **React** and **Java**.
 
 #### Contact
 
-[![Discord](https://img.shields.io/badge/Discord-johannes.hehl-000000?style=flat-square&logo=discord&logoColor=white)](https://discord.com/users/johannes.hehl)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_me_a_coffee-St4ndd-000000?style=flat-square&logo=buymeacoffee&logoColor=white)](https://buymeacoffee.com/St4ndd)
+<p>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/contact-discord-dark.svg" /><source media="(prefers-color-scheme: light)" srcset="assets/contact-discord-light.svg" /><img alt="Discord: johannes.hehl" src="assets/contact-discord-dark.svg" width="420" /></picture>
+<a href="https://buymeacoffee.com/St4ndd"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/contact-coffee-dark.svg" /><source media="(prefers-color-scheme: light)" srcset="assets/contact-coffee-light.svg" /><img alt="Buy me a coffee: buymeacoffee.com/St4ndd" src="assets/contact-coffee-dark.svg" width="420" /></picture></a>
+</p>
