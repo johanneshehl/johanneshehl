@@ -23,7 +23,7 @@ Right now I'm diving into **React** and **Java**, learning something new with ev
 
 ---
 
-### 🛠️ Tech Stack
+### Tech Stack
 
 **Languages**
 <p> <img src="https://skillicons.dev/icons?i=c,cs,cpp,java,js,ts,py,php,bash,powershell,html,css,md" /> </p>
